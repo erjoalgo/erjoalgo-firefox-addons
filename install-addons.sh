@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
-ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.org"
+ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.list"
 
 PROFILE_DIR="${1}"
 test -n "${PROFILE_DIR}" || exit 1
