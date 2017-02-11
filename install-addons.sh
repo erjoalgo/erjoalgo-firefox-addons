@@ -10,8 +10,10 @@ EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
 test -d "${EXTENSIONS_DIR}" || exit 1
 
 cd "${EXTENSIONS_DIR}"
-    # wget --content-disposition "${URL}"
-    # curl -JOL "${URL}"
-    curl -LIs "${URL}"
 for URL in $(cut -d: -f2- < ${ADDONS_LIST}); do
+    XPI_URL=$(curl -LIs ${URL} | grep Location | cut -d' ' -f2- \
+		     | sed 's/?.*//')
+    FILENAME=$(basename ${XPI_URL})
+    # TODO check sha hash
+    curl -s "${XPI_URL}" -o "${FILENAME}"
 done
