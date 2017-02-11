@@ -10,8 +10,8 @@ EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
 test -d "${EXTENSIONS_DIR}" || exit 1
 
 cd "${EXTENSIONS_DIR}"
-for URL in $(grep 'https://' "${ADDONS_LIST}"); do
     # wget --content-disposition "${URL}"
     # curl -JOL "${URL}"
     curl -LIs "${URL}"
+for URL in $(cut -d: -f2- < ${ADDONS_LIST}); do
 done
