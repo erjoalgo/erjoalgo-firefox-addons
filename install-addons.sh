@@ -11,9 +11,34 @@ test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 
 cd "${EXTENSIONS_DIR}"
 for URL in $(cut -d: -f2- < ${ADDONS_LIST}); do
-    XPI_URL=$(curl -LIs ${URL} | grep Location | cut -d' ' -f2- \
-		     | sed 's/?.*//')
-    FILENAME=$(basename ${XPI_URL})
     # TODO check sha hash
-    curl -s "${XPI_URL}" -o "${FILENAME}"
+    TMPNAME="tmp-$(uuidgen)"
+    mkdir ${TMPNAME}
+    cd ${TMPNAME}
+    curl -Ls "${URL}" -o "${TMPNAME}.xpi"
+    if ! test $? -eq 0; then
+	echo "failed: curl -Ls ${URL} -o ${TMPNAME}.xpi"
+	exit ${LINENO}
+    fi
+
+    unzip ${TMPNAME}.xpi
+    # ADDON_ID=$(grep -oE '[{][a-z0-9-]+}' install.rdf)
+    cp install.{rdf,xml}
+    # remove namespace stuff
+    sed -i  's/xmlns.*"//g' install.xml;
+    sed -i  's/\(em\|RDF\)://g' install.xml;
+
+    ADDON_ID=$(xmllint install.xml --xpath 'string(/RDF/Description/id)')
+    if ! test $? -eq 0; then
+	ADDON_ID=$(xmllint install.xml --xpath 'string(/RDF/Description/@id)')
+	# if test -z "${ADDON_ID}"; then
+	if ! test $? -eq 0; then
+	    read "couldn't parse ID from $(pwd)/install.rdf..."
+	    exit 1;
+	fi
+    fi
+
+    cd ..
+    mv ${TMPNAME}/${TMPNAME}.xpi ${ADDON_ID}.xpi
+    rm -rf ${TMPNAME}
 done
