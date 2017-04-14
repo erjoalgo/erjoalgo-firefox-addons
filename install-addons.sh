@@ -7,7 +7,7 @@ PROFILE_DIR="${1}"
 test -n "${PROFILE_DIR}" || exit 1
 
 EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
-test -d "${EXTENSIONS_DIR}" || exit 1
+test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 
 cd "${EXTENSIONS_DIR}"
 for URL in $(cut -d: -f2- < ${ADDONS_LIST}); do
