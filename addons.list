@@ -2,7 +2,3 @@ vimfx: https://addons.mozilla.org/firefox/downloads/latest/vimfx/addon-404785-la
 tree-style-tab: https://addons.mozilla.org/firefox/downloads/latest/tree-style-tab/addon-5890-latest.xpi
 noscript: https://addons.mozilla.org/firefox/downloads/latest/noscript/addon-722-latest.xpi
 mozrepl: https://addons.mozilla.org/firefox/downloads/latest/mozrepl/addon-264678-latest.xpi
-
-# Local Variables:
-# comment-start: "#"
-# End:
