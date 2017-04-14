@@ -10,7 +10,7 @@ EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
 test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 
 cd "${EXTENSIONS_DIR}"
-for URL in $(cut -d: -f2- < ${ADDONS_LIST}); do
+for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     # TODO check sha hash
     TMPNAME="tmp-$(uuidgen)"
     mkdir ${TMPNAME}
