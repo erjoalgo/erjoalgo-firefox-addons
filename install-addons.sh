@@ -29,10 +29,10 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     sed -i  's/\(em\|RDF\)://g' install.xml;
 
     ADDON_ID=$(xmllint install.xml --xpath 'string(/RDF/Description/id)')
-    if ! test $? -eq 0; then
+    if ! test $? -eq 0 || test -z "${ADDON_ID}"; then
 	ADDON_ID=$(xmllint install.xml --xpath 'string(/RDF/Description/@id)')
 	# if test -z "${ADDON_ID}"; then
-	if ! test $? -eq 0; then
+	if ! test $? -eq 0  || test -z "${ADDON_ID}"; then
 	    read "couldn't parse ID from $(pwd)/install.rdf..."
 	    exit 1;
 	fi
