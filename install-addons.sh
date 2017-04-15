@@ -12,7 +12,7 @@ test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 cd "${EXTENSIONS_DIR}"
 for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     # TODO check sha hash
-    TMPNAME="tmp-$(uuidgen)"
+    TMPNAME="tmp-$RANDOM-$RANDOM"
     mkdir ${TMPNAME}
     cd ${TMPNAME}
     curl -Ls "${URL}" -o "${TMPNAME}.xpi"
