@@ -33,7 +33,7 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
 	exit ${LINENO}
     fi
 
-    unzip ${TMPNAME}.xpi
+    unzip ${TMPNAME}.xpi || exit ${LINENO}
     # ADDON_ID=$(grep -oE '[{][a-z0-9-]+}' install.rdf)
     cp install.{rdf,xml}
     # remove namespace stuff
