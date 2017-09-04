@@ -1,5 +1,17 @@
 #!/bin/bash -x
 
+if ! command -v xmllint; then
+    sudo apt-get install -y libxml2-utils
+fi
+
+if ! command -v unzip; then
+    sudo apt-get install -y unzip
+fi
+
+if ! command -v xmllint || ! command -v unzip; then
+    echo "need xmllint" && exit ${LINENO}
+fi
+
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.conf"
 
