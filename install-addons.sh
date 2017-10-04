@@ -3,7 +3,7 @@
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.conf"
 
-PROFILE_DIR="${1}"
+PROFILE_DIR=${1:-${HOME}/.mozilla/firefox/*erjoalgo/}
 test -n "${PROFILE_DIR}" || exit 1
 
 EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
@@ -33,8 +33,9 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
 	ADDON_ID=$(xmllint install.xml --xpath 'string(/RDF/Description/@id)')
 	# if test -z "${ADDON_ID}"; then
 	if ! test $? -eq 0  || test -z "${ADDON_ID}"; then
-	    read "couldn't parse ID from $(pwd)/install.rdf..."
-	    exit 1;
+	    echo "url is ${URL}"
+	    echo "couldn't parse ID from $(pwd)/install.rdf..."
+	    # exit 1;
 	fi
     fi
 
