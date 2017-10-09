@@ -29,7 +29,9 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     HTTP_CODE=$(curl "${URL}" -o "${TMPNAME}.xpi" -w "%{http_code}" -s -L)
     test 200 -eq ${HTTP_CODE}
 
-    unzip ${TMPNAME}.xpi || exit ${LINENO}
+    file ${TMPNAME}.xpi | grep -i Zip
+    unzip ${TMPNAME}.xpi
+
     # ADDON_ID=$(grep -oE '[{][a-z0-9-]+}' install.rdf)
     cp install.{rdf,xml}
     # remove namespace stuff
