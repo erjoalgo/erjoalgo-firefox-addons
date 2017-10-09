@@ -1,16 +1,10 @@
 #!/bin/bash -x
 
-if ! command -v xmllint; then
-    sudo apt-get install -y libxml2-utils
-fi
+set -euo pipefail
 
-if ! command -v unzip; then
-    sudo apt-get install -y unzip
-fi
+command -v xmllint || sudo apt-get install -y libxml2-utils
 
-if ! command -v xmllint || ! command -v unzip; then
-    echo "need xmllint" && exit ${LINENO}
-fi
+command -v unzip || sudo apt-get install -y unzip
 
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.conf"
