@@ -26,11 +26,8 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     TMPNAME="tmp-$RANDOM-$RANDOM"
     mkdir ${TMPNAME}
     cd ${TMPNAME}
-    curl -Ls "${URL}" -o "${TMPNAME}.xpi"
-    if ! test $? -eq 0; then
-	echo "failed: curl -Ls ${URL} -o ${TMPNAME}.xpi"
-	exit ${LINENO}
-    fi
+    HTTP_CODE=$(curl "${URL}" -o "${TMPNAME}.xpi" -w "%{http_code}" -s -L)
+    test 200 -eq ${HTTP_CODE}
 
     unzip ${TMPNAME}.xpi || exit ${LINENO}
     # ADDON_ID=$(grep -oE '[{][a-z0-9-]+}' install.rdf)
