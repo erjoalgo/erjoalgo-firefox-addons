@@ -18,6 +18,7 @@ test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 cd "${EXTENSIONS_DIR}"
 TMPDIR=/tmp/install-addons
 mkdir -p ${TMPDIR}
+which xmllint
 
 for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     # TODO check sha hash
