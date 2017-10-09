@@ -16,8 +16,12 @@ EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
 test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
 
 cd "${EXTENSIONS_DIR}"
+TMPDIR=/tmp/install-addons
+mkdir -p ${TMPDIR}
+
 for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     # TODO check sha hash
+    cd ${TMPDIR}
     TMPNAME="tmp-$RANDOM-$RANDOM"
     mkdir ${TMPNAME}
     cd ${TMPNAME}
@@ -45,6 +49,6 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     fi
 
     cd ..
-    mv ${TMPNAME}/${TMPNAME}.xpi ${ADDON_ID}.xpi
+    mv ${TMPNAME}/${TMPNAME}.xpi "${EXTENSIONS_DIR}/${ADDON_ID}.xpi"
     rm -rf ${TMPNAME}
 done
