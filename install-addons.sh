@@ -10,10 +10,10 @@ ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_
 ADDONS_LIST="$(dirname ${ABSOLUTE_PATH})/addons.conf"
 
 PROFILE_DIR="${1}"
-test -n "${PROFILE_DIR}" || exit 1
+test -d "${PROFILE_DIR}"
 
 EXTENSIONS_DIR="${PROFILE_DIR}/extensions"
-test -d "${EXTENSIONS_DIR}" || mkdir "${EXTENSIONS_DIR}"
+mkdir -p "${EXTENSIONS_DIR}"
 
 cd "${EXTENSIONS_DIR}"
 TMPDIR=/tmp/install-addons
@@ -24,8 +24,7 @@ for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
     # TODO check sha hash
     cd ${TMPDIR}
     TMPNAME="tmp-$RANDOM-$RANDOM"
-    mkdir ${TMPNAME}
-    cd ${TMPNAME}
+    mkdir ${TMPNAME} && cd ${TMPNAME}
     HTTP_CODE=$(curl "${URL}" -o "${TMPNAME}.xpi" -w "%{http_code}" -s -L)
     test 200 -eq ${HTTP_CODE}
 
