@@ -21,6 +21,7 @@ mkdir -p ${TMPDIR}
 which xmllint
 
 for URL in $(grep -v '^#' ${ADDONS_LIST} | cut -d: -f2-); do
+    cd /tmp
     # TODO check sha hash
     cd ${TMPDIR}
     TMPNAME="tmp-$RANDOM-$RANDOM"
